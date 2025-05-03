@@ -1,0 +1,77 @@
+version: 2
+
+models:
+
+  - name: stg_facebook
+    description: Cleaned Facebook campaign data with spend in GBP.
+    columns:
+      - name: campaign_id
+        description: Normalized campaign ID.
+        tests: [not_null]
+      - name: campaign_date
+        description: Date of the campaign.
+        tests: [not_null]
+      - name: campaign_spend_gbp
+        description: Spend in GBP.
+        tests: [not_null]
+      - name: country
+        description: Country extracted from Facebook data.
+        tests: [not_null]
+
+  - name: stg_tiktok
+    description: Cleaned TikTok campaign data with spend in USD.
+    columns:
+      - name: campaign_id
+        description: Normalized campaign ID.
+        tests: [not_null]
+      - name: campaign_date
+        description: Date of the campaign.
+        tests: [not_null]
+      - name: campaign_spend_usd
+        description: Spend in USD.
+        tests: [not_null]
+      - name: country
+        description: Country extracted from the TikTok campaign ID.
+        tests: [not_null]
+
+  - name: stg_signups
+    description: Cleaned user signup data linked to campaign attribution.
+    columns:
+      - name: account_id
+        description: Unique account identifier.
+        tests: [not_null, unique]
+      - name: signup_date
+        description: Date of signup.
+        tests: [not_null]
+      - name: campaign_id
+        description: Campaign attributed to the signup.
+        tests: [not_null]
+
+  - name: stg_transaction
+    description: Cleaned transaction data including currency and price.
+    columns:
+      - name: account_id
+        description: User account that made the transaction.
+        tests: [not_null]
+      - name: transaction_date
+        description: Date of transaction.
+        tests: [not_null]
+      - name: price
+        description: Transaction amount.
+        tests: [not_null]
+      - name: currency
+        description: Currency of transaction.
+        tests: [not_null]
+
+  - name: stg_fx_rates
+    description: Foreign exchange rates with USD as the base.
+    columns:
+      - name: fx_date
+        description: Date of the FX rate.
+        tests: [not_null]
+      - name: currency
+        description: Currency being converted to USD.
+        tests: [not_null]
+      - name: usd_rate
+        description: FX rate relative to USD.
+        tests: [not_null]

@@ -1,0 +1,25 @@
+# Ignore virtual environments
+.venv/
+env/
+venv/
+
+# Ignore compiled files
+__pycache__/
+*.pyc
+
+# Ignore dbt artifacts
+dbt_packages/
+target/
+logs/
+manifest.json
+run_results.json
+profiles.yml
+*.log
+
+# Ignore credentials and config
+*.env
+.env
+.env.local
+secrets.*
+*.key
+credentials/

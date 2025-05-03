@@ -1,0 +1,79 @@
+version: 2
+
+models:
+
+  - name: int_campaign_spend
+    description: Intermediate model combining normalized Facebook and TikTok spend data, converted to GBP.
+    columns:
+      - name: campaign_id
+        description: Unique ID of the campaign.
+        tests:
+          - not_null
+      - name: campaign_date
+        description: Date the campaign ran.
+        tests:
+          - not_null
+      - name: spend_gbp
+        description: Total spend in GBP for the campaign on the specific day.
+
+  - name: int_signup
+    description: Intermediate model mapping cleaned signup data to campaign and date.
+    columns:
+      - name: campaign_id
+        description: Campaign ID associated with the signup.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_signups')
+              field: campaign_id
+      - name: campaign_date
+        description: Date of user signup.
+        tests:
+          - not_null
+      - name: signups
+        description: Aggregated count of signups.
+
+  - name: int_transactions_gbp
+    description: Intermediate model aggregating transaction value per campaign per date in GBP.
+    columns:
+      - name: campaign_id
+        description: Campaign ID associated with the transaction.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_signups')
+              field: campaign_id
+      - name: campaign_date
+        description: Date the transaction occurred.
+        tests:
+          - not_null
+      - name: transaction_value_gbp
+        description: Total transaction value in GBP.
+
+  - name: int_campaign_performance
+    description: Intermediate model combining spend, signups, and transactions per campaign per day.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - campaign_id
+            - campaign_date
+            - social_media
+            - country
+    columns:
+      - name: campaign_id
+        description: Unique identifier of the campaign.
+        tests:
+          - not_null
+      - name: campaign_date
+        description: Date of the campaign activity.
+        tests:
+          - not_null
+      - name: spend_gbp
+        description: Total spend in GBP for the campaign on the specific day.
+      - name: social_media
+        description: Platform on which the campaign ran (e.g., Facebook, TikTok).
+      - name: signups
+        description: Count of user signups linked to the campaign.
+      - name: total_revenue_gbp
+        description: Aggregated transaction revenue in GBP from the campaign.
+ 

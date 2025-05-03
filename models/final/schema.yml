@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: fact_campaign_performance
+    description: Final fact table showing campaign-level performance metrics including spend, signups, revenue, CPA, and ROAS.
+    columns:
+      - name: campaign_id
+        description: Unique identifier for each campaign.
+        tests:
+          - not_null
+
+      - name: campaign_date
+        description: The date the campaign was run.
+        tests:
+          - not_null
+
+      - name: social_media
+        description: Platform where the campaign was run (e.g., Facebook or TikTok).
+        tests:
+          - not_null
+
+      - name: country
+        description: Country targeted by the campaign.
+        tests:
+          - not_null
+
+      - name: spend_gbp
+        description: Amount spent on the campaign in GBP.
+
+      - name: signups
+        description: Total number of user signups attributed to the campaign.
+
+      - name: total_revenue_gbp
+        description: Total revenue attributed to the campaign in GBP.
+
+      - name: cost_per_acquisition_gbp
+        description: Spend divided by number of signups (CPA).
+
+      - name: roas
+        description: Revenue divided by spend (ROAS).
